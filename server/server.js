@@ -135,5 +135,14 @@ app.get("/api/orders/:id",(req,res)=>{
   if(!order)return res.status(404).json({ok:false,message:"Order not found"});
   res.json({ok:true,order});
 });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
+const distPath = path.join(__dirname, "../dist");
+
+app.use(express.static(distPath));
+
+app.get("/{*splat}", (req, res) => {
+  res.sendFile(path.join(distPath, "index.html"));
+});
 app.listen(PORT,()=>console.log(`DOOR backend running on http://localhost:${PORT}`));
